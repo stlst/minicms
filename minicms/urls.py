@@ -17,5 +17,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+	url(r'^$', 'news.views.index', name='index'),
+    url(r'^column/(?P<column_slug>[^/]+)/$', 'news.views.column_detail', name='column'),
+    url(r'^news/(?P<pk>\d+)/(?P<article_slug>[^/]+)/$', 'news.views.article_detail', name='article'),
+    
     url(r'^admin/', include(admin.site.urls)),
 ]
