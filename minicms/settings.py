@@ -25,7 +25,7 @@ SECRET_KEY = ')!-gv5n_8w*dgb5t0oyj7)r5sy6ow%m76ags0xn6y57-psl76('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'news',
+    'markdownx'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,3 +102,46 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+print "STATIC_ROOT is " + STATIC_ROOT
+print "BASE_DIR: " + BASE_DIR
+
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+)
+
+######  Markdownx ######
+# Markdownify
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
+
+# Markdown extensions
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {} # Configuration object for used markdown extensions
+
+# Markdown urls
+MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # URL that returns compiled markdown text.
+MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # URL that accepts file uploads, returns markdown notation of the image.
+
+# Media path
+MARKDOWNX_MEDIA_PATH = 'media/markdownx/img' # Path, where images will be stored in MEDIA_ROOT folder
+
+# Image
+MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB - maximum file size
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml'] # Acceptable file content types
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (800, 500), 'quality': 100,} # Different options describing final image processing: size, compression etc. See below for more info. Dimensions are not applied to SVG files.
+
+# Editor
+MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content height while typing
+
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.fenced_code',
+    'markdown.extensions.codehilite',
+    'markdown.extensions.smarty',
+]
+###### Markdownx End ######
+

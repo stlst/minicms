@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from markdownx.admin import MarkdownxModelAdmin
 # Register your models here.
 from .models import Column, Article
 
@@ -9,7 +9,9 @@ class ColumnAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
 	list_display = ('title','slug','author','pub_date','update_date')
+	search_fields = ('title','slug')
 	#Setting columns that admin UI will show
+
 
 admin.site.register(Column, ColumnAdmin)
 admin.site.register(Article,ArticleAdmin)

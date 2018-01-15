@@ -3,7 +3,13 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
+from markdown import markdown
+from markdownx.models import MarkdownxField
+from markdownx.widgets import AdminMarkdownxWidget
+import datetime
 # Create your models here.
+
+
 
 @python_2_unicode_compatible
 class Column(models.Model):
@@ -30,7 +36,8 @@ class Article(models.Model):
 	title = models.CharField('Title',max_length=256)
 	slug = models.CharField('Site', max_length=256, unique=True)
 	author = models.ForeignKey('auth.User',blank=True,null=True,verbose_name='Author')
-	content = models.TextField('Content',default='',blank=True)
+	content = MarkdownxField()
+
 	published = models.BooleanField('Published', default=True)
 
 	pub_date = models.DateTimeField('Publish Date', auto_now_add=True, editable=True)
@@ -38,6 +45,9 @@ class Article(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def get_content(self):
+		return markdown(self.content)
 
 	def get_absolute_url(self):
 		return reverse('article',args=(self.pk,self.slug,))#add pk to avoid multiple returned values

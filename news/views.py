@@ -16,6 +16,11 @@ def column_detail(request,column_slug):
 
 def article_detail(request,pk,article_slug):
 	#return HttpResponse('article slug: ' + article_slug)
+	try:
+		pk = int(pk)
+	except:
+		return HttpResponse("Invalid Article Number...")
+
 	article = Article.objects.get(pk=pk)
 	if article_slug != article.slug:
 		return redirect(article,permanent=True) #use function 'get_absolute_url() directly'
@@ -30,3 +35,4 @@ An absolute or relative URL, which will be used as-is for the redirect location.
 By default issues a temporary redirect; pass permanent=True to issue a permanent redirect.
 	'''
 	return render(request,'news/article.html',{'article':article})
+	#return HttpResponse(article.get_content())   #return markdown style
