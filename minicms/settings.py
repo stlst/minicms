@@ -70,6 +70,13 @@ TEMPLATES = [
     },
 ]
 
+#try this pattern
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = (
+    TEMPLATE_PATH,
+)
+TEMPLATE_URL = '/templates/'
+
 WSGI_APPLICATION = 'minicms.wsgi.application'
 
 

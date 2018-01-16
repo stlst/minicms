@@ -1,51 +1,52 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+{% load custom_markdown %}
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Welcome{% endblock title %} - Ziqiang Xuetang</title>
-   
-    <!-- Bootstrap -->
-    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+    <title>Stlst Blog</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+    <link rel="stylesheet" href="http://picturebag.qiniudn.com/blog.css">
+    <link rel="stylesheet" style="text/css" href="{%static 'css/code/pastie.css'%}">
+    <link rel="stylesheet" style="text/css" href="{%static 'css/flat-ui/flat-ui.css'%}">
+</head>
+<body>
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">Stlst Blog</h1>
+            <nav class="nav inverse">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="https://github.com/stlst/">Github</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="https://www.weibo.com/p/1005051911895330?is_all=1">Weibo</a>
+                    </li>
+                </ul>
     
-
-
-
-
-
-    <!-- 引入下面两个库让 IE8 支持 HTML5 元素 -->
-    <!-- 警告: Respond.js 通过 file:// 浏览的时候不能正常工作！-->
-    <!--[if lt IE 9]>
-      <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
-      <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    {% block css %}
-         
-    {% endblock css %}
- 
-    {% block js %}
-         
-    {% endblock js %}
-  </head>
-  <body>
-    
-
-
-    <div class ="content">
-        <div>
-            <h1>Ziqiang News</h1>
-            {% block content %}
-            
-            {% endblock content %}
+            </nav>
         </div>
     </div>
-   
 
-
-   
-    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    {% include "baidutongji.html" %}
-  </body>
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            {% block content %}
+            {% endblock %}
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal pure-menu-open">
+                    <ul>
+                        <li><a href="https://www.weibo.com/p/1005051911895330?is_all=1">About Me</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   <script src="/static/js/flat-ui/flat-ui.min.js"></script>
+</body>
 </html>

@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^column/(?P<column_slug>[^/]+)/$', 'news.views.column_detail', name='column'),
     url(r'^news/(?P<pk>\d+)/(?P<article_slug>[^/]+)/$', 'news.views.article_detail', name='article'),
     url(r'^markdownx/', include('markdownx.urls')),
-    
+    url(r'^test/(?P<my_args>[^/]+)/$','news.views.test_detail',name='test_detail'),
+
+
     url(r'^admin/', include(admin.site.urls)),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
