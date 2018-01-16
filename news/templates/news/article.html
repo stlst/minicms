@@ -6,10 +6,29 @@
 {{ article.title }}
 {% endblock title %}
  
- 
-{% block content %}
-<h1>文章标题： {{ article.title }}</h1>
-<div id="main">
-    {{ article.content|custom_markdown }}
-</div>
-{% endblock content %}
+
+{% block content%}
+<ol class="breadcrumb">
+	<li><a href="{%url "index" %}">Blog</a></li>
+
+    <li class="active">{{ article.title }}</li>
+</ol>
+
+<div class="posts">
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">{{ article.title }}</h2>
+
+                    <p class="post-meta">
+                        Time:  <a class="post-time" href="#">{{ article.pub_date }}</a> 
+                        Author: {{article.author}}
+                    </p>
+            </header>
+                <div class="post-description">
+                    <p>
+                     {{ article.content|custom_markdown }}
+                    </p>
+                </div>
+        </section>
+</div><!-- /.blog-post -->
+{% endblock %}
