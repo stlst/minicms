@@ -26,11 +26,13 @@ def main():
         for i in range(1, 11):
             article = Article.objects.get_or_create(
                 title='{}_{}'.format(column_name, i),
+                column=c,
                 slug='article_{}'.format(i),
-                content='新闻详细内容： {} {}'.format(column_name, i)
+                content='新闻详细内容： {} {}'.format(column_name, i),
+                
             )[0]
  
-            article.column.add(c)
+            #article.column.add(c)
  
  
 if __name__ == '__main__':

@@ -10,7 +10,7 @@
 {% block content%}
 <ol class="breadcrumb">
 	<li><a href="{%url "index" %}">Blog</a></li>
-
+	<li><a href="{{ article.column.get_absolute_url }}">{{ article.column.slug }}</a></li>
     <li class="active">{{ article.title }}</li>
 </ol>
 

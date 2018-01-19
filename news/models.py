@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -7,6 +6,7 @@ from markdown import markdown
 from markdownx.models import MarkdownxField
 from markdownx.widgets import AdminMarkdownxWidget
 import datetime
+import uuid
 # Create your models here.
 
 
@@ -22,7 +22,7 @@ class Column(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('column',args=(self.slug,))
-		#注意 args 参数为元组，写 args=(self.slug) 这样是错的，注意后面有一个逗号 args=(self.slug,)
+		#attention that args is a tuple, it is wrong to use ` args=(self.slug) `, there is a ',' behind.
 
 	class Meta:
 		verbose_name = 'Column'
@@ -31,10 +31,9 @@ class Column(models.Model):
 
 @python_2_unicode_compatible
 class Article(models.Model):
-	column = models.ManyToManyField(Column,verbose_name='Column')
-
 	title = models.CharField('Title',max_length=256)
-	slug = models.CharField('Site', max_length=256, unique=True)
+	slug = models.SlugField('Site', max_length=256,unique=True)
+	column = models.ForeignKey(Column,verbose_name='Column')
 	author = models.ForeignKey('auth.User',blank=True,null=True,verbose_name='Author')
 	content = MarkdownxField()
 
@@ -42,6 +41,9 @@ class Article(models.Model):
 
 	pub_date = models.DateTimeField('Publish Date', auto_now_add=True, editable=True)
 	update_date = models.DateTimeField('Update Date', auto_now_add=True, null=True)
+
+	def get_column_slug(self):
+		return self.column.slug
 
 	def __str__(self):
 		return self.title
