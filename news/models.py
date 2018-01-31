@@ -3,10 +3,12 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
 from markdown import markdown
+import bleach
 from markdownx.models import MarkdownxField
 from markdownx.widgets import AdminMarkdownxWidget
 import datetime
 import uuid
+from bs4 import BeautifulSoup
 # Create your models here.
 
 
@@ -44,24 +46,59 @@ class Article(models.Model):
 	column = models.ForeignKey(Column,verbose_name='Column')
 	author = models.ForeignKey('auth.User',blank=True,null=True,verbose_name='Author')
 	content = MarkdownxField()
-	description = models.CharField('Article description', default='This is the description for article.', max_length=256)
 	published = models.BooleanField('Published', default=True)
-
 	pub_date = models.DateTimeField('Publish Date', auto_now_add=True, editable=True)
 	update_date = models.DateTimeField('Update Date', auto_now_add=True, null=True)
-
+	html_body=models.TextField('Html',default='This is html_body')
+	description = models.TextField('Article description', default='This is the description for article.', max_length=256)
 	def get_column_slug(self):
 		return self.column.slug
-
 	def __str__(self):
 		return self.title
-
 	def get_content(self):
 		return markdown(self.content)
-
 	def get_absolute_url(self):
 		return reverse('article',args=(self.pk,self.slug,))#add pk to avoid multiple returned values
-
+	def save(self,*args,**kwargs):
+		self.html_body=markdown(self.content,output_format='html')
+		soup=BeautifulSoup(self.html_body,"html5lib")
+		self.html_body=soup.get_text()
+		if len(self.html_body) >= 255:
+			self.description=self.html_body[:255]
+		else:
+			self.description=self.html_body
+		super(Article, self).save(*args,**kwargs)
+	#@staticmethod
+	#def on_body_change(self,value,oldvalue,initiator):  
+	#	allowed_tags=['a','ul','strong','p','h1','h2','h3']  
+	#	html_body=markdown(value,output_format='html')  
+	#	html_body=bleach.clean(html_body,tags=allowed_tags,strip=True)  
+	#	html_body=bleach.linkify(html_body)
+	#	self.html_body=html_body  
 	class Meta:
 		verbose_name = 'Article'
 		verbose_name_plural = 'Article'
+
+
+  
+#models.event.listen(Article.content,'set',Article.on_body_change)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
