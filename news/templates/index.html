@@ -23,7 +23,10 @@
             	<a href="{{ article.get_absolute_url }}" ><h2>{{ article.title }}</h2></a>
             	<h5><span class="glyphicon glyphicon-time"></span> Post by {{ article.author }}, on {{ article.pub_date }}</h5>
             	<a href="{{ column.get_absolute_url }}"><h5><span class="label label-danger">{{ column.name }}</span></h5><br></a>
-            	<p>{{article.description }}</p>
+            	<p>{{article.description }}
+                    <a href="{{ article.get_absolute_url }}"><br>...More
+                    </a>
+                </p>
       			<br><br>
     		{% endfor %}
     	{% endfor %}
