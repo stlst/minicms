@@ -7,28 +7,54 @@
 {% endblock title %}
  
 
-{% block content%}
-<ol class="breadcrumb">
-	<li><a href="{%url "index" %}">Blog</a></li>
-	<li><a href="{{ article.column.get_absolute_url }}">{{ article.column.slug }}</a></li>
-    <li class="active">{{ article.title }}</li>
-</ol>
 
-<div class="posts">
-        <section class="post">
-            <header class="post-header">
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+		{% block blog-category %}
+
+		<h2><small>{{article.column.slug}}</small></h2>
+		<ul class="nav bnav-pills nav-stacked">
+    		{% for article in  article.column.article_set.all %}
+        		<li>
+            		<a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        		</li>
+    		{% endfor %}
+		</ul><br>
+		{% endblock blog-category %}
+
+
+		</div>
+		<div class="col-md-9">
+			{% block content%}
+			<ol class="breadcrumb">
+			<li><a href="{%url "index" %}">Blog</a></li>
+			<li><a href="{{ article.column.get_absolute_url }}">{{ article.column.slug }}</a></li>
+    		<li class="active">{{ article.title }}</li>
+			</ol>
+
+			<div class="posts">
+        		<section class="post">
+            	<header class="post-header">
                 <h2 class="post-title">{{ article.title }}</h2>
-
                     <p class="post-meta">
                         Time:  <a class="post-time" href="#">{{ article.pub_date }}</a> 
                         Author: {{article.author}}
                     </p>
-            </header>
+            	</header>
                 <div class="post-description">
                     <p>
                      {{ article.content|custom_markdown }}
                     </p>
                 </div>
-        </section>
-</div><!-- /.blog-post -->
-{% endblock %}
+        		</section>
+			</div><!-- /.blog-post -->
+			{% endblock %}
+		</div>
+	</div>
+</div>
+
+
+
+

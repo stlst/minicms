@@ -20,6 +20,14 @@ class Column(models.Model):
 	def __str__(self):
 		return self.name
 
+	def get_column_count(self,keyword):
+		try:
+			c=Column.objects.get(slug=keyword)
+		except Exception as e:
+			raise e
+		len_a = c.article_set.all()
+		return len_a
+
 	def get_absolute_url(self):
 		return reverse('column',args=(self.slug,))
 		#attention that args is a tuple, it is wrong to use ` args=(self.slug) `, there is a ',' behind.
@@ -36,7 +44,7 @@ class Article(models.Model):
 	column = models.ForeignKey(Column,verbose_name='Column')
 	author = models.ForeignKey('auth.User',blank=True,null=True,verbose_name='Author')
 	content = MarkdownxField()
-
+	description = models.CharField('Article description', default='This is the description for article.', max_length=256)
 	published = models.BooleanField('Published', default=True)
 
 	pub_date = models.DateTimeField('Publish Date', auto_now_add=True, editable=True)

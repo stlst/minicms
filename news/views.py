@@ -12,7 +12,8 @@ def index(request):
 def column_detail(request,column_slug):
 	#return HttpResponse('column slug: ' + column_slug)
 	column = Column.objects.get(slug=column_slug)
-	return render(request,'news/column.html',{'column':column})
+	columns = Column.objects.all()
+	return render(request,'news/column.html',{'column':column, 'columns':columns})
 	#return HttpResponse(column.name + " " + column.slug + " " + column.intro )
 	#return render(request,'test.html',{'column_info': column.name + " " + column.slug + " " + column.intro })
 

@@ -4,16 +4,26 @@
 {{ column.title }}
 {% endblock title %}
  
-{% block content %}
 
-<p>栏目名称：{{ column.name }}</p>
-栏目简介：{{ column.intro }}
-栏目文章列表：
-<ul>
-    {% for article in column.article_set.all %}
-        <li>
-            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-        </li>
-    {% endfor %}
-</ul>
-{% endblock content %}
+<div class="container">
+	<div class="row">
+
+			{% block content %}
+			<ol class="breadcrumb">
+				<li><a href="{%url "index" %}">Blog</a></li>
+    			<li class="active">{{ column.slug }}</li>
+			</ol>
+
+			{% for article in column.article_set.all %}
+				<hr>
+            	<a href="{{ article.get_absolute_url }}" ><h2>{{ article.title }}</h2></a>
+            	<h5><span class="glyphicon glyphicon-time"></span> Post by {{ article.author }}, on {{ article.pub_date }}</h5>
+            	<a href="{{ column.get_absolute_url }}"><h5><span class="label label-danger">{{ column.name }}</span></h5><br></a>
+            	<p>{{article.description }}</p>
+      			<br><br>
+    		{% endfor %}
+
+			{% endblock content %}
+	</div>
+</div>
+

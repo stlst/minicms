@@ -1,14 +1,33 @@
 {% extends "base.html" %}
  
 {% block title %} Homepage {% endblock title %}
- 
- 
+
+
+{% block blog-category %}
+		<h2><small>Category</small></h2>
+		<ul class="nav bnav-pills nav-stacked">
+    		{% for column in columns %}
+        		<li>
+            		<a href="{{ column.get_absolute_url }}">{{ column.name }}</a>
+        		</li>
+    		{% endfor %}
+		</ul><br>
+{% endblock blog-category %}
 {% block content %}
-<ul>
-    {% for column in  columns %}
-        <li>
-            <a href="{{ column.get_absolute_url }}"> {{ column.name }} </a>
-        </li>
-    {% endfor %}
-</ul>
+
+	
+		<h4><small>RECENT POSTS</small></h4>
+		{% for column in  columns %}
+			{% for article in column.article_set.all %}
+				<hr>
+            	<a href="{{ article.get_absolute_url }}" ><h2>{{ article.title }}</h2></a>
+            	<h5><span class="glyphicon glyphicon-time"></span> Post by {{ article.author }}, on {{ article.pub_date }}</h5>
+            	<a href="{{ column.get_absolute_url }}"><h5><span class="label label-danger">{{ column.name }}</span></h5><br></a>
+            	<p>{{article.description }}</p>
+      			<br><br>
+    		{% endfor %}
+    	{% endfor %}
+
 {% endblock content %}
+
+
